@@ -1,0 +1,8 @@
+# 数据库
+db.js
+/db.js
+
+# Log file
+*.log
+
+node_modules
