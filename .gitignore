@@ -6,3 +6,4 @@ db.js
 *.log
 
 node_modules
+package-lock.json
