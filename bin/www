@@ -88,3 +88,4 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+console.log("express启动成功端口号:"+port)
