@@ -12,16 +12,16 @@ PS> $env:DEBUG='myapp:*'; npm start
 然后在浏览器中打开 http://localhost:9999/ 网址就可以看到这个应用了。
 
 
-# forever启动
-
+# forever启动优化
+断开服务器保持express不断开
 "scripts": {
-    "start": "node ./bin/www"
-  },
+  "start": "node ./bin/www"
+},
 改为
-"start": "forever start index.js"
-使用 npm start
-
-
+"start": "forever start ./bin/www"后
+可使用 npm start
+或
+直接使用命令
 forever start ./bin/www
 
 
