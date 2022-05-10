@@ -4,6 +4,7 @@ const myQuery = require('../db')
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
+    console.log("测试获取token",req.cookies.token)
     res.send('111111111111');
 });
 

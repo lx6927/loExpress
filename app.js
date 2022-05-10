@@ -20,8 +20,6 @@ const myQuery = require('./db')
 
 
 
-
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -29,13 +27,57 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+// 使用cookie
+app.use(cookieParser('不能为空'));
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+
+
+// token
+var vertoken = require('./public/javascripts/token')
+// 解析token获取用户信息
+app.use(function(req, res, next) {
+  var token = req.headers['authorization'];
+  console.log("解析token",token)
+  if(token == undefined){
+    return next();
+  }else{
+    vertoken.verToken(token).then((data)=> {
+      req.data = data;
+      return next();
+    }).catch((error)=>{
+      return next();
+    })
+  }
+});
+var expressJwt=require("express-jwt")
+//验证token是否过期并规定哪些路由不用验证
+app.use(expressJwt({
+  secret: 'mes_qdhd_mobile_xhykjyxgs',
+  algorithms:['HS256'],
+}).unless({
+  path: ['/login']//除了这个地址，其他的URL都需要验证
+}));
+//当token失效返回提示信息
+app.use(function(err, req, res, next) {
+  if (err.status == 401) {
+    return res.status(401).send('token失效');
+  }
+});
+
+
+
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/article', articleRouter);
 app.use('/goods', goodsRouter);
+
+
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
