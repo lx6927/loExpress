@@ -4,11 +4,16 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors')
+// token
+var expressJwt=require("express-jwt")
+var vertoken = require('./public/javascripts/token')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var articleRouter = require('./routes/article');
 var goodsRouter = require('./routes/goods');
+
+
 
 var app = express();
 
@@ -34,8 +39,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 
-// token
-var vertoken = require('./public/javascripts/token')
+
 // 解析token获取用户信息
 app.use(function(req, res, next) {
   var token = req.headers['authorization'];
@@ -44,14 +48,19 @@ app.use(function(req, res, next) {
     return next();
   }else{
     vertoken.verToken(token).then((data)=> {
+      console.log(111,JSON.stringify(data))
+      if(data.exp===0){
+        res.status(401).send('token失效');
+        return
+      }
       req.data = data;
       return next();
     }).catch((error)=>{
+      console.log(222,error)
       return next();
     })
   }
 });
-var expressJwt=require("express-jwt")
 //验证token是否过期并规定哪些路由不用验证
 app.use(expressJwt({
   secret: 'mes_qdhd_mobile_xhykjyxgs',
@@ -59,8 +68,10 @@ app.use(expressJwt({
 }).unless({
   path: ['/login']//除了这个地址，其他的URL都需要验证
 }));
+
 //当token失效返回提示信息
 app.use(function(err, req, res, next) {
+  // console.log("当token失效返回提示信息:"+err,req,res)
   if (err.status == 401) {
     return res.status(401).send('token失效');
   }

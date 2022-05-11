@@ -31,6 +31,7 @@ router.post('/login', async (req, res, next) =>{
       code:1,
       message:"用户不存在"
     })
+    return;
   }
 
   //生成token
@@ -47,10 +48,13 @@ router.post('/login', async (req, res, next) =>{
 
     res.send({
       code:0,
-      userName:sqlRes.user_name,
-      userId:sqlRes.user_id,
-      nickName:sqlRes.nick_name,
-      token: token
+      data:{
+        userName:sqlRes.user_name,
+        userId:sqlRes.user_id,
+        nickName:sqlRes.nick_name,
+      },
+      token: token,
+      message:"登录成功"
     });
   })
   // res.send({
