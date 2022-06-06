@@ -29,7 +29,7 @@ router.post('/login', async (req, res, next) =>{
   if(sqlRes===null){
     res.send({
       code:1,
-      message:"用户不存在"
+      message:"用户名不存在/用户密码错误"
     })
     return;
   }
