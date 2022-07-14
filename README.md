@@ -1,6 +1,6 @@
 # loUniapp后端
 
-基于express后端
+基于express后端，开发中
 
 功能：
 
@@ -12,6 +12,7 @@
 
 -forever启动优化,保持服务器一直开启后端
 
+前端项目地址：https://github.com/lx6927/loUniapp
 
 
 # loExpress
