@@ -1,3 +1,12 @@
+loUniapp后端
+基于express后端
+功能：
+-物品列表分页展示
+-登录（token校验）
+-添加物品
+
+
+
 # loExpress
 
 在 MacOS 或 Linux 中，通过如下命令启动此应用：
